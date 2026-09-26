@@ -9,8 +9,9 @@ RTracker&OCR - Ordered result queue + ESP32 bin lights: decisions (queue_v1 -> q
 2. FILES (naming rule: "v5" = PP-OCRv5 mobile model, not script version 5; new logic gets a feature suffix)
 - rtracker_ocr_paddle_v5_queue_v1.py : first queue logic (ply-only lookup, one row per ply). Kept unchanged.
 - rtracker_ocr_paddle_v5_queue_v2.py : current version with the bin-selection rules below.
-- Not modified: ocr.py, detector.py, rtracker_ocr.py, ocr_paddle_v5.py, rtracker_ocr_paddle_v5.py,
-  ply_bin_lights.py, bin_light_controller.py, ESP32 sketch.
+- Not modified: ocr.py, detector.py, rtracker_ocr.py, ocr_paddle_v5.py, rtracker_ocr_paddle_v5.py, ESP32 sketch.
+- bin_light_controller.py: only DEFAULT_BIN_TO_RELAY was changed, to the bin names in section 5A.
+- data/master.csv: the no_of_ply column was rewritten to those names (old copy: data/master_bins_v1.csv).
 - Outputs: output/annotated_queue_v2.mp4, output/readings_queue_v2.csv (v1: *_queue_v1.*), so v5 outputs are never overwritten.
 
 3. QUEUE ARCHITECTURE
@@ -37,15 +38,32 @@ RTracker&OCR - Ordered result queue + ESP32 bin lights: decisions (queue_v1 -> q
 - Columns used: ply_no (--key-col), no_of_ply = bin (--bin-col), start, end. Other columns ignored.
 - Ply matching is loose: "080", "80", "80.0" are the same ply.
 - Re-read automatically when the file changes; if it can't be read, the last good copy is kept.
-- The sheet is used as is (e.g. ply 205 really is 1-DW / 1-UW only).
+- The sheet is used as is (e.g. ply 205 really is on the AFTER list only, as After-DW / After-UW).
+
+5A. BIN NAMES IN THE SHEET (no_of_ply column)
+- The four bins are Before-DW, Before-UW, After-DW, After-UW = ESP32 relays 1, 2, 3, 4.
+- "DW"/"UW" is the kind of roll; "Before"/"After" says which sheet the row belongs to, and is NOT a count.
+- Rule 1: the sheet name decides the prefix. A BEFORE sheet gives Before-DW / Before-UW, an AFTER sheet gives
+  After-DW / After-UW (read from the packing_list column).
+- Rule 2: a row saying "2" means one DW roll AND one UW roll -> it must be written out as TWO rows, one
+  <sheet>-DW and one <sheet>-UW. A bare number must never be left in the sheet: the pipeline reads a plain
+  number as a relay number, so a literal "2" would light lamp 2 instead of meaning two rolls.
+- Rule 3: a row naming one bin means one roll of that kind (e.g. a DW roll -> <sheet>-DW).
+- Old naming (1-DW, 1-UW, 2-DW, 2-UW) is no longer used. data/master.csv was converted by sheet name:
+  1-DW -> Before-DW (98 rows), 1-UW -> Before-UW (45), 2-DW -> After-DW (42), 2-UW -> After-UW (42), plus 4
+  rows on the AFTER cutting list whose old prefix said 1 (ply 205 twice, plys 68 and 69) -> After-DW / After-UW.
+  Totals now: Before-DW 98, Before-UW 45, After-DW 44, After-UW 44.
+- The bin name is data, not code: the pipeline reads it from the sheet and looks it up in
+  bin_light_controller.DEFAULT_BIN_TO_RELAY. A name missing from that map is reported in the terminal
+  ("no relay mapped for X") and lights nothing.
 
 6. BIN SELECTION (per confirmed ply)
-- Bin priority order: 1-DW, 1-UW, 2-DW, 2-UW (= ESP32 relays 1, 2, 3, 4).
+- Bin priority order: Before-DW, Before-UW, After-DW, After-UW (= ESP32 relays 1, 2, 3, 4).
 - Ranges of the same ply within 0.1 on both start and end (--range-tol) count as the SAME range
   (e.g. ply 205: 2.75-19.2 and 2.8-19.2 -> same range -> case 2).
 - Case 1 - ply has one row: that bin. Range not checked. Lit as soon as the ply is confirmed.
 - Case 2 - ply has several rows, all the same range: first unused bin in priority order. Range not checked.
-  Lit as soon as the ply is confirmed. Example: ply 81 -> 1st roll 1-DW, 2nd roll 1-UW.
+  Lit as soon as the ply is confirmed. Example: ply 81 -> 1st roll Before-DW, 2nd roll Before-UW.
 - Case 3 - ply has rows with different ranges: waits for the roll's range reading, then:
   - Uses the confirmed range, or the BEST reading so far (most reads) if not confirmed.
   - Closeness = number of differing digits (edit distance), decimal points ignored (OCR often drops them),
@@ -54,8 +72,8 @@ RTracker&OCR - Ordered result queue + ESP32 bin lights: decisions (queue_v1 -> q
     to be adjusted if tests aren't satisfactory).
   - Tie (two ranges equally close): the one whose first free bin comes first in the priority order.
   - Within the chosen range: first unused bin in priority order.
-  - Example: ply 93 has 28.4-48.5 (1-DW) and 50.6-70.4 (1-DW, 1-UW). Read "59.6-704" -> 1 digit off
-    50.6-70.4 -> 1-DW, next such roll -> 1-UW.
+  - Example: ply 93 has 28.4-48.5 (Before-DW) and 50.6-70.4 (Before-DW, Before-UW). Read "59.6-704" ->
+    1 digit off 50.6-70.4 -> Before-DW, next such roll -> Before-UW.
   - Example: read "59.6-789" vs 50.6-78.9 = 1 digit, vs 34.5-67.8 = 5 digits -> 50.6-78.9.
   - Case 3 rolls light later than cases 1/2 because they wait for the range.
 
@@ -68,7 +86,7 @@ RTracker&OCR - Ordered result queue + ESP32 bin lights: decisions (queue_v1 -> q
   bin (cases 2/3) or shows DUPLICATE.
 
 8. OUTCOMES (terminal line per roll, in seq order; CSV row per roll)
-- Lit: "[seq N] roll #id  ply P -> bin 1-DW  BIN 1 | range R (sheet S, case C, k of n for this range, x digits off) | lit t s after first seen"
+- Lit: "[seq N] roll #id  ply P -> bin Before-DW  BIN 1 | range R (sheet S, case C, k of n for this range, x digits off) | lit t s after first seen"
 - Ply not in sheet: "ply P not in master.csv" -> terminal only, no light.
 - UNREADABLE (no confirmed ply): terminal only (with best guess for debugging), no light, not in the ESP32 sequence.
 - Case 3, range not readable: "range NOT READABLE -- cannot choose between ..." -> no light.
@@ -82,6 +100,10 @@ RTracker&OCR - Ordered result queue + ESP32 bin lights: decisions (queue_v1 -> q
   range_no_match | unreadable.
 
 9. LIGHTS (ESP32, protocol unchanged: "BIN 0..4\n", replies OK)
+- Bin name -> relay number lives only in bin_light_controller.DEFAULT_BIN_TO_RELAY:
+  Before-DW 1 (GPIO 33), Before-UW 2 (GPIO 32), After-DW 3 (GPIO 25), After-UW 4 (GPIO 26).
+  The ESP32 only ever receives the number, so renaming bins never needs a reflash (its comments still show
+  the old names).
 - A lit bin stays on until the next roll lights a bin.
 - Next roll to the same bin: switched off for --blink-gap (0.3 s) then on again (re-highlight, not continuous).
 - Outcomes with no light leave the previous bin lit (known: the operator could misplace an unreadable roll).
