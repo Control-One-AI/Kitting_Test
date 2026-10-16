@@ -1,0 +1,593 @@
+Physical-bin tracking summary
+=============================
+Source: /Users/deltan/Documents/ControlOne/roll-text-obj-V5/tracking/videos/test4.mp4
+Model: /Users/deltan/Documents/ControlOne/roll-text-obj-V5/runs/obb/v5_fresh/weights/best.pt
+Tracker type: botsort
+Tracker config: configs/botsort_roll.yaml
+Confidence threshold: 0.120
+Processed frames: 6429
+Video FPS: 25.004
+Physical-bin camera: cam0
+Configured physical bins: BIN_1, BIN_2, BIN_3
+Placement calculation: OBB-to-physical-bin polygon overlap
+Total unique local track IDs: 52
+Transport Global IDs created: 15
+GLOBAL_REASSOCIATED count: 5
+Camera journeys closed: 0
+Active camera journeys: 0
+Confirmed placements: 3
+Factory placements completed: 3
+Global IDs sealed by placement: 3
+Attempts to reassociate sealed globals: 220
+Opposite-flow reassociation rejections: 1
+Possible false global reuse events: 221
+
+Placement lifecycle audit
+-------------------------
+G1:
+  placement_confirmed_frame: 269
+  lifecycle_after_placement: PLACED
+  reassociation_allowed: no
+  later_local_ids_attached: none
+G2:
+  placement_confirmed_frame: NONE
+  lifecycle_after_placement: N/A
+  reassociation_allowed: yes
+  later_local_ids_attached: none
+G3:
+  placement_confirmed_frame: 2110
+  lifecycle_after_placement: PLACED
+  reassociation_allowed: no
+  later_local_ids_attached: none
+G4:
+  placement_confirmed_frame: 2193
+  lifecycle_after_placement: PLACED
+  reassociation_allowed: no
+  later_local_ids_attached: none
+G5:
+  placement_confirmed_frame: NONE
+  lifecycle_after_placement: N/A
+  reassociation_allowed: yes
+  later_local_ids_attached: none
+G6:
+  placement_confirmed_frame: NONE
+  lifecycle_after_placement: N/A
+  reassociation_allowed: yes
+  later_local_ids_attached: none
+G7:
+  placement_confirmed_frame: NONE
+  lifecycle_after_placement: N/A
+  reassociation_allowed: yes
+  later_local_ids_attached: none
+G8:
+  placement_confirmed_frame: NONE
+  lifecycle_after_placement: N/A
+  reassociation_allowed: yes
+  later_local_ids_attached: none
+G9:
+  placement_confirmed_frame: NONE
+  lifecycle_after_placement: N/A
+  reassociation_allowed: yes
+  later_local_ids_attached: none
+G10:
+  placement_confirmed_frame: NONE
+  lifecycle_after_placement: N/A
+  reassociation_allowed: yes
+  later_local_ids_attached: none
+G11:
+  placement_confirmed_frame: NONE
+  lifecycle_after_placement: N/A
+  reassociation_allowed: yes
+  later_local_ids_attached: none
+G12:
+  placement_confirmed_frame: NONE
+  lifecycle_after_placement: N/A
+  reassociation_allowed: yes
+  later_local_ids_attached: none
+G13:
+  placement_confirmed_frame: NONE
+  lifecycle_after_placement: N/A
+  reassociation_allowed: yes
+  later_local_ids_attached: none
+G14:
+  placement_confirmed_frame: NONE
+  lifecycle_after_placement: N/A
+  reassociation_allowed: yes
+  later_local_ids_attached: none
+G15:
+  placement_confirmed_frame: NONE
+  lifecycle_after_placement: N/A
+  reassociation_allowed: yes
+  later_local_ids_attached: none
+
+Per-roll placement verification
+-------------------------------
+G1 -> expected NONE -> actual BIN_2 -> status CONFIRMED -> evidence ENTRY_THEN_OCCLUDED -> UNVERIFIED
+G2 -> expected NONE -> actual UNKNOWN -> status UNRESOLVED -> evidence NONE -> UNRESOLVED
+G3 -> expected NONE -> actual BIN_1 -> status CONFIRMED -> evidence ENTRY_THEN_OCCLUDED -> UNVERIFIED
+G4 -> expected NONE -> actual BIN_2 -> status CONFIRMED -> evidence DIRECT_VISIBLE -> UNVERIFIED
+G5 -> expected NONE -> actual UNKNOWN -> status UNRESOLVED -> evidence NONE -> UNRESOLVED
+G6 -> expected NONE -> actual UNKNOWN -> status UNRESOLVED -> evidence NONE -> UNRESOLVED
+G7 -> expected NONE -> actual UNKNOWN -> status UNRESOLVED -> evidence NONE -> UNRESOLVED
+G8 -> expected NONE -> actual UNKNOWN -> status UNRESOLVED -> evidence NONE -> UNRESOLVED
+G9 -> expected NONE -> actual UNKNOWN -> status UNRESOLVED -> evidence NONE -> UNRESOLVED
+G10 -> expected NONE -> actual UNKNOWN -> status UNRESOLVED -> evidence NONE -> UNRESOLVED
+G11 -> expected NONE -> actual UNKNOWN -> status UNRESOLVED -> evidence NONE -> UNRESOLVED
+G12 -> expected NONE -> actual UNKNOWN -> status UNRESOLVED -> evidence NONE -> UNRESOLVED
+G13 -> expected NONE -> actual UNKNOWN -> status UNRESOLVED -> evidence NONE -> UNRESOLVED
+G14 -> expected NONE -> actual UNKNOWN -> status UNRESOLVED -> evidence NONE -> UNRESOLVED
+G15 -> expected NONE -> actual UNKNOWN -> status UNRESOLVED -> evidence NONE -> UNRESOLVED
+
+Placement diagnostics
+---------------------
+Bin placement enabled: YES
+Bin overlap threshold: 0.350
+Visible settled dwell: 0.600 sec
+Bin gap tolerance: 0.300 sec
+Occlusion confirmation grace: 1.000 sec
+Bin settle speed threshold: 70.000 px/sec
+Speed smoothing window: 0.500 sec (median)
+Global journeys detected: 15
+Candidates started: 7
+Candidates cancelled: 4
+Candidates switched: 0
+Provisional placements started: 2
+Provisional placements cancelled: 0
+Placements confirmed: 3
+Journeys with no final placement: 12
+Ambiguous bin entries: 0
+
+Per-roll placement diagnostics
+------------------------------
+G1:
+  camera_journey_state: PLACED
+  candidate_bins: BIN_2
+  candidate_bin: BIN_2
+  expected_bin_id: NONE
+  actual_bin_id: BIN_2
+  placement_confirmed: yes
+  placement_frame: 269
+  placement_status: CONFIRMED
+  placement_evidence: ENTRY_THEN_OCCLUDED
+  placement_confidence: 0.956
+  entered_bin_mouth: yes
+  entry_frame: 241
+  entry_timestamp: 9.639 sec
+  entry_bin_id: BIN_2
+  entry_direction_score: 0.925
+  entry_trajectory_consistency: 0.980
+  last_visible_centroid: (483.3, 254.8)
+  verification_result: UNVERIFIED
+  placement_owner_static_local_id: NONE
+  visible_dwell: 0.040 sec
+  max_overlap: 0.390
+  settled_speed: 98.454 px/sec
+  disappeared_inside_candidate: yes
+  provisional: yes
+  reappeared_outside: no
+  confirmation_method: DISAPPEAR_IN_BIN
+  factory_placement_completed: yes
+  reason: DISAPPEAR_IN_BIN
+G2:
+  camera_journey_state: LOST
+  candidate_bins: NONE
+  candidate_bin: NONE
+  expected_bin_id: NONE
+  actual_bin_id: NONE
+  placement_confirmed: no
+  placement_frame: NONE
+  placement_status: UNRESOLVED
+  placement_evidence: NONE
+  placement_confidence: 0.000
+  entered_bin_mouth: no
+  entry_frame: NONE
+  entry_timestamp: NONE
+  entry_bin_id: NONE
+  entry_direction_score: 0.000
+  entry_trajectory_consistency: 0.000
+  last_visible_centroid: (621.0, 143.4)
+  verification_result: UNRESOLVED
+  placement_owner_static_local_id: NONE
+  visible_dwell: 0.000 sec
+  max_overlap: 0.000
+  settled_speed: 0.000 px/sec
+  disappeared_inside_candidate: no
+  provisional: no
+  reappeared_outside: no
+  confirmation_method: NONE
+  factory_placement_completed: no
+  reason: NO_BIN_CANDIDATE
+G3:
+  camera_journey_state: PLACED
+  candidate_bins: BIN_1
+  candidate_bin: BIN_1
+  expected_bin_id: NONE
+  actual_bin_id: BIN_1
+  placement_confirmed: yes
+  placement_frame: 2110
+  placement_status: CONFIRMED
+  placement_evidence: ENTRY_THEN_OCCLUDED
+  placement_confidence: 0.981
+  entered_bin_mouth: yes
+  entry_frame: 2083
+  entry_timestamp: 83.307 sec
+  entry_bin_id: BIN_1
+  entry_direction_score: 0.997
+  entry_trajectory_consistency: 0.950
+  last_visible_centroid: (771.6, 249.2)
+  verification_result: UNVERIFIED
+  placement_owner_static_local_id: NONE
+  visible_dwell: 0.560 sec
+  max_overlap: 0.067
+  settled_speed: 7.602 px/sec
+  disappeared_inside_candidate: yes
+  provisional: yes
+  reappeared_outside: no
+  confirmation_method: DISAPPEAR_IN_BIN
+  factory_placement_completed: yes
+  reason: DISAPPEAR_IN_BIN
+G4:
+  camera_journey_state: PLACED
+  candidate_bins: BIN_2
+  candidate_bin: BIN_2
+  expected_bin_id: NONE
+  actual_bin_id: BIN_2
+  placement_confirmed: yes
+  placement_frame: 2193
+  placement_status: CONFIRMED
+  placement_evidence: DIRECT_VISIBLE
+  placement_confidence: 1.000
+  entered_bin_mouth: yes
+  entry_frame: 2160
+  entry_timestamp: 86.387 sec
+  entry_bin_id: BIN_2
+  entry_direction_score: 0.700
+  entry_trajectory_consistency: 0.783
+  last_visible_centroid: (394.6, 261.0)
+  verification_result: UNVERIFIED
+  placement_owner_static_local_id: NONE
+  visible_dwell: 0.640 sec
+  max_overlap: 0.450
+  settled_speed: 12.594 px/sec
+  disappeared_inside_candidate: no
+  provisional: no
+  reappeared_outside: no
+  confirmation_method: VISIBLE_SETTLED
+  factory_placement_completed: yes
+  reason: VISIBLE_SETTLED
+G5:
+  camera_journey_state: LOST
+  candidate_bins: BIN_2
+  candidate_bin: BIN_2
+  expected_bin_id: NONE
+  actual_bin_id: NONE
+  placement_confirmed: no
+  placement_frame: NONE
+  placement_status: UNRESOLVED
+  placement_evidence: NONE
+  placement_confidence: 0.000
+  entered_bin_mouth: no
+  entry_frame: NONE
+  entry_timestamp: NONE
+  entry_bin_id: NONE
+  entry_direction_score: 0.000
+  entry_trajectory_consistency: 0.000
+  last_visible_centroid: (437.3, 279.2)
+  verification_result: UNRESOLVED
+  placement_owner_static_local_id: NONE
+  visible_dwell: 0.360 sec
+  max_overlap: 0.535
+  settled_speed: 120.246 px/sec
+  disappeared_inside_candidate: no
+  provisional: no
+  reappeared_outside: no
+  confirmation_method: NONE
+  factory_placement_completed: no
+  reason: TRACK_LOST_BEFORE_MEANINGFUL_ENTRY
+G6:
+  camera_journey_state: LOST
+  candidate_bins: NONE
+  candidate_bin: NONE
+  expected_bin_id: NONE
+  actual_bin_id: NONE
+  placement_confirmed: no
+  placement_frame: NONE
+  placement_status: UNRESOLVED
+  placement_evidence: NONE
+  placement_confidence: 0.000
+  entered_bin_mouth: no
+  entry_frame: NONE
+  entry_timestamp: NONE
+  entry_bin_id: NONE
+  entry_direction_score: 0.000
+  entry_trajectory_consistency: 0.000
+  last_visible_centroid: (693.5, 146.8)
+  verification_result: UNRESOLVED
+  placement_owner_static_local_id: NONE
+  visible_dwell: 0.000 sec
+  max_overlap: 0.328
+  settled_speed: 0.000 px/sec
+  disappeared_inside_candidate: no
+  provisional: no
+  reappeared_outside: no
+  confirmation_method: NONE
+  factory_placement_completed: no
+  reason: NO_BIN_CANDIDATE
+G7:
+  camera_journey_state: LOST
+  candidate_bins: NONE
+  candidate_bin: NONE
+  expected_bin_id: NONE
+  actual_bin_id: NONE
+  placement_confirmed: no
+  placement_frame: NONE
+  placement_status: UNRESOLVED
+  placement_evidence: NONE
+  placement_confidence: 0.000
+  entered_bin_mouth: no
+  entry_frame: NONE
+  entry_timestamp: NONE
+  entry_bin_id: NONE
+  entry_direction_score: 0.000
+  entry_trajectory_consistency: 0.000
+  last_visible_centroid: (245.1, 231.6)
+  verification_result: UNRESOLVED
+  placement_owner_static_local_id: NONE
+  visible_dwell: 0.000 sec
+  max_overlap: 0.119
+  settled_speed: 0.000 px/sec
+  disappeared_inside_candidate: no
+  provisional: no
+  reappeared_outside: no
+  confirmation_method: NONE
+  factory_placement_completed: no
+  reason: NO_BIN_CANDIDATE
+G8:
+  camera_journey_state: LOST
+  candidate_bins: NONE
+  candidate_bin: NONE
+  expected_bin_id: NONE
+  actual_bin_id: NONE
+  placement_confirmed: no
+  placement_frame: NONE
+  placement_status: UNRESOLVED
+  placement_evidence: NONE
+  placement_confidence: 0.000
+  entered_bin_mouth: no
+  entry_frame: NONE
+  entry_timestamp: NONE
+  entry_bin_id: NONE
+  entry_direction_score: 0.000
+  entry_trajectory_consistency: 0.000
+  last_visible_centroid: (207.7, 249.5)
+  verification_result: UNRESOLVED
+  placement_owner_static_local_id: NONE
+  visible_dwell: 0.000 sec
+  max_overlap: 0.238
+  settled_speed: 0.000 px/sec
+  disappeared_inside_candidate: no
+  provisional: no
+  reappeared_outside: no
+  confirmation_method: NONE
+  factory_placement_completed: no
+  reason: NO_BIN_CANDIDATE
+G9:
+  camera_journey_state: LOST
+  candidate_bins: NONE
+  candidate_bin: NONE
+  expected_bin_id: NONE
+  actual_bin_id: NONE
+  placement_confirmed: no
+  placement_frame: NONE
+  placement_status: UNRESOLVED
+  placement_evidence: NONE
+  placement_confidence: 0.000
+  entered_bin_mouth: no
+  entry_frame: NONE
+  entry_timestamp: NONE
+  entry_bin_id: NONE
+  entry_direction_score: 0.000
+  entry_trajectory_consistency: 0.000
+  last_visible_centroid: (618.5, 206.6)
+  verification_result: UNRESOLVED
+  placement_owner_static_local_id: NONE
+  visible_dwell: 0.000 sec
+  max_overlap: 0.330
+  settled_speed: 0.000 px/sec
+  disappeared_inside_candidate: no
+  provisional: no
+  reappeared_outside: no
+  confirmation_method: NONE
+  factory_placement_completed: no
+  reason: NO_BIN_CANDIDATE
+G10:
+  camera_journey_state: LOST
+  candidate_bins: NONE
+  candidate_bin: NONE
+  expected_bin_id: NONE
+  actual_bin_id: NONE
+  placement_confirmed: no
+  placement_frame: NONE
+  placement_status: UNRESOLVED
+  placement_evidence: NONE
+  placement_confidence: 0.000
+  entered_bin_mouth: no
+  entry_frame: NONE
+  entry_timestamp: NONE
+  entry_bin_id: NONE
+  entry_direction_score: 0.000
+  entry_trajectory_consistency: 0.000
+  last_visible_centroid: (594.4, 138.5)
+  verification_result: UNRESOLVED
+  placement_owner_static_local_id: NONE
+  visible_dwell: 0.000 sec
+  max_overlap: 0.006
+  settled_speed: 0.000 px/sec
+  disappeared_inside_candidate: no
+  provisional: no
+  reappeared_outside: no
+  confirmation_method: NONE
+  factory_placement_completed: no
+  reason: NO_BIN_CANDIDATE
+G11:
+  camera_journey_state: LOST
+  candidate_bins: NONE
+  candidate_bin: NONE
+  expected_bin_id: NONE
+  actual_bin_id: NONE
+  placement_confirmed: no
+  placement_frame: NONE
+  placement_status: UNRESOLVED
+  placement_evidence: NONE
+  placement_confidence: 0.000
+  entered_bin_mouth: no
+  entry_frame: NONE
+  entry_timestamp: NONE
+  entry_bin_id: NONE
+  entry_direction_score: 0.000
+  entry_trajectory_consistency: 0.000
+  last_visible_centroid: (585.9, 157.1)
+  verification_result: UNRESOLVED
+  placement_owner_static_local_id: NONE
+  visible_dwell: 0.000 sec
+  max_overlap: 0.000
+  settled_speed: 0.000 px/sec
+  disappeared_inside_candidate: no
+  provisional: no
+  reappeared_outside: no
+  confirmation_method: NONE
+  factory_placement_completed: no
+  reason: NO_BIN_CANDIDATE
+G12:
+  camera_journey_state: LOST
+  candidate_bins: NONE
+  candidate_bin: NONE
+  expected_bin_id: NONE
+  actual_bin_id: NONE
+  placement_confirmed: no
+  placement_frame: NONE
+  placement_status: UNRESOLVED
+  placement_evidence: NONE
+  placement_confidence: 0.000
+  entered_bin_mouth: no
+  entry_frame: NONE
+  entry_timestamp: NONE
+  entry_bin_id: NONE
+  entry_direction_score: 0.000
+  entry_trajectory_consistency: 0.000
+  last_visible_centroid: (442.0, 297.9)
+  verification_result: UNRESOLVED
+  placement_owner_static_local_id: NONE
+  visible_dwell: 0.000 sec
+  max_overlap: 0.000
+  settled_speed: 0.000 px/sec
+  disappeared_inside_candidate: no
+  provisional: no
+  reappeared_outside: no
+  confirmation_method: NONE
+  factory_placement_completed: no
+  reason: NO_BIN_CANDIDATE
+G13:
+  camera_journey_state: LOST
+  candidate_bins: NONE
+  candidate_bin: NONE
+  expected_bin_id: NONE
+  actual_bin_id: NONE
+  placement_confirmed: no
+  placement_frame: NONE
+  placement_status: UNRESOLVED
+  placement_evidence: NONE
+  placement_confidence: 0.000
+  entered_bin_mouth: no
+  entry_frame: NONE
+  entry_timestamp: NONE
+  entry_bin_id: NONE
+  entry_direction_score: 0.000
+  entry_trajectory_consistency: 0.000
+  last_visible_centroid: (733.1, 146.1)
+  verification_result: UNRESOLVED
+  placement_owner_static_local_id: NONE
+  visible_dwell: 0.000 sec
+  max_overlap: 0.000
+  settled_speed: 0.000 px/sec
+  disappeared_inside_candidate: no
+  provisional: no
+  reappeared_outside: no
+  confirmation_method: NONE
+  factory_placement_completed: no
+  reason: NO_BIN_CANDIDATE
+G14:
+  camera_journey_state: LOST
+  candidate_bins: BIN_2
+  candidate_bin: BIN_2
+  expected_bin_id: NONE
+  actual_bin_id: NONE
+  placement_confirmed: no
+  placement_frame: NONE
+  placement_status: UNRESOLVED
+  placement_evidence: NONE
+  placement_confidence: 0.000
+  entered_bin_mouth: no
+  entry_frame: NONE
+  entry_timestamp: NONE
+  entry_bin_id: NONE
+  entry_direction_score: 0.000
+  entry_trajectory_consistency: 0.000
+  last_visible_centroid: (506.3, 240.3)
+  verification_result: UNRESOLVED
+  placement_owner_static_local_id: NONE
+  visible_dwell: 0.360 sec
+  max_overlap: 0.370
+  settled_speed: 159.458 px/sec
+  disappeared_inside_candidate: no
+  provisional: no
+  reappeared_outside: no
+  confirmation_method: NONE
+  factory_placement_completed: no
+  reason: TRACK_LOST_BEFORE_MEANINGFUL_ENTRY
+G15:
+  camera_journey_state: LOST
+  candidate_bins: NONE
+  candidate_bin: NONE
+  expected_bin_id: NONE
+  actual_bin_id: NONE
+  placement_confirmed: no
+  placement_frame: NONE
+  placement_status: UNRESOLVED
+  placement_evidence: NONE
+  placement_confidence: 0.000
+  entered_bin_mouth: no
+  entry_frame: NONE
+  entry_timestamp: NONE
+  entry_bin_id: NONE
+  entry_direction_score: 0.000
+  entry_trajectory_consistency: 0.000
+  last_visible_centroid: (684.4, 118.1)
+  verification_result: UNRESOLVED
+  placement_owner_static_local_id: NONE
+  visible_dwell: 0.000 sec
+  max_overlap: 0.000
+  settled_speed: 0.000 px/sec
+  disappeared_inside_candidate: no
+  provisional: no
+  reappeared_outside: no
+  confirmation_method: NONE
+  factory_placement_completed: no
+  reason: NO_BIN_CANDIDATE
+
+BIN_3 candidate failure diagnostics
+-----------------------------------
+None.
+
+POSSIBLE_DETECTOR_MISS_AT_BIN_ENTRY
+-----------------------------------
+G4 -> BIN_2: frame=2117, last_distance=59.1px, approach_progress=69.6px, max_overlap=0.028, saved_frames=/Users/deltan/Documents/ControlOne/roll-text-obj-V5/tracking/outputs/tracked_videos_only/targeted_annotations/cam0/G4_BIN_2_loss_2117
+G7 -> BIN_2: frame=3766, last_distance=53.2px, approach_progress=37.6px, max_overlap=0.119, saved_frames=/Users/deltan/Documents/ControlOne/roll-text-obj-V5/tracking/outputs/tracked_videos_only/targeted_annotations/cam0/G7_BIN_2_loss_3766
+G8 -> BIN_2: frame=4454, last_distance=60.6px, approach_progress=71.1px, max_overlap=0.000, saved_frames=/Users/deltan/Documents/ControlOne/roll-text-obj-V5/tracking/outputs/tracked_videos_only/targeted_annotations/cam0/G8_BIN_2_loss_4454
+
+Debug statistics (non-business)
+-------------------------------
+Physical-bin totals below never affect identity, placement, journey, or verification.
+BIN_1 confirmed placements: 1
+BIN_2 confirmed placements: 2
+BIN_3 confirmed placements: 0
