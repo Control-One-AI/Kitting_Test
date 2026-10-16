@@ -1,0 +1,12 @@
+{
+  "physical_bins": [
+    "BIN_1",
+    "BIN_2",
+    "BIN_3",
+    "BIN_4"
+  ],
+  "cameras": {
+    "cam0": {},
+    "cam1": {}
+  }
+}
