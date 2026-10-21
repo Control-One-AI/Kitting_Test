@@ -8,6 +8,12 @@ New in v16: how a text box is cut out and which way up it is read (votes, decisi
                   it upside down: every crop is turned 180 deg and read ONCE, that way up only. v15 read every crop
                   both ways and kept the higher score, which chose the upside-down way for half the crops.
   --text-up 0     the writer stands on the camera side: crops are read as cut (along the roll), once.
+  --ink-blackhat on  (off by default) an ink filter on every crop before it is read: grey, 3 px median blur, then a
+                  morphological black-hat (closing - image, elliptic kernel --blackhat-kernel x crop height, default
+                  0.4) keeps marks darker and thinner than the fabric around them, stretched to dark ink on white.
+                  crops/ keeps the crop as cut; snapshots/ and the sidebar show the image the OCR read. Tested on
+                  videos/19/cam0_19_4.mp4 (det v5, rec v5): worse than off (45 vs 56 of 378 crops read exactly 235),
+                  as the fabric weave is lifted with the ink and rec v5 was trained on colour crops.
   --text-up both  v15's reading: box angle as detected, ply-above-range layout if the model has both classes, else
                   read both ways and keep the higher score.
   On the 8 test videos (det v5, rec v5), the 1,522 crops of rolls with a known number gave 178 exactly right reads
@@ -250,6 +256,18 @@ class FreeReader:
         text, score = self._read(crop)
         text2, score2 = self._read(cv2.rotate(crop, cv2.ROTATE_180))
         return text, score, text2, score2, 180 if score2 > score else 0
+
+
+def ink_blackhat(crop, frac=0.4):
+    """Dark pen strokes on fabric -> black ink on a white background, the rest (fabric shading, light, weave coarser
+    than a stroke) flattened. Black-hat = closing - image with an elliptic kernel frac x the crop height."""
+    if crop.size == 0:
+        return crop
+    g = cv2.medianBlur(cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY), 3)
+    k = max(3, int(round(g.shape[0] * frac)) | 1)
+    bh = cv2.morphologyEx(g, cv2.MORPH_BLACKHAT, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k, k)))
+    bh = bh.astype(np.float32) * 255 / max(float(np.percentile(bh, 99)), 1.0)
+    return cv2.cvtColor((255 - np.clip(bh, 0, 255)).astype(np.uint8), cv2.COLOR_GRAY2BGR)
 
 
 def along_roll(rect, roll_theta):
@@ -883,6 +901,10 @@ def main():
                     help="v16: way up of the written number in the camera image. 180 (default): the writer is on the "
                          "far side of the table, every crop is turned 180 deg and read once; 0: read as cut, once; "
                          "both: v15 (box angle, layout or both ways, higher score)")
+    ap.add_argument("--ink-blackhat", choices=["on", "off"], default="on",
+                    help="black-hat ink filter on every crop before the OCR (off = the crop as cut)")
+    ap.add_argument("--blackhat-kernel", type=float, default=0.4,
+                    help="black-hat kernel size as a fraction of the crop height")
     ap.add_argument("--no-show", action="store_true")
     args = ap.parse_args()
     roi = tuple(int(v) for v in args.roi.split(",")) if args.roi else None
@@ -1352,7 +1374,8 @@ def main():
 
             field, crop, rotation, crop_frame, timing = item
             t0 = time.perf_counter()
-            text, score, text2, score2, used = reader.read(crop, rotation)
+            ocr_in = ink_blackhat(crop, args.blackhat_kernel) if args.ink_blackhat == "on" else crop
+            text, score, text2, score2, used = reader.read(ocr_in, rotation)
             ocr_ms = (time.perf_counter() - t0) * 1000
             t_done_wall = time.time()
             if rotation is None and used == 180:  # way up unknown: the higher-scoring way is used
@@ -1362,7 +1385,7 @@ def main():
             voted = text_field(text) if field == "text" else field
             vote = bool(text) and voted in ("ply", "range") and not after
             crop_name = box_name = snap_name = ""
-            seen = as_read(crop, used)  # the crop the right way up for the read that was used
+            seen = as_read(ocr_in, used)  # the OCR input (filtered with --ink-blackhat on) the right way up
             box = timing.get("box")
             color = (C_TEXTBOX if text else C_ERROR) if after else C_PICKED if vote else C_ERROR
             if run_dir:
